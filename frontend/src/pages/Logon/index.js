@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {FiLogIn} from 'react-icons/fi';
 import api from '../../services/api';
 
@@ -10,6 +10,7 @@ import logoImg from '../../assets/logo.svg';
 
 export default function Logon() {
     const [id, setId] = useState('');
+    let history = useHistory();
 
     async function handleLogin(e) {
         e.preventDefault();
@@ -18,9 +19,9 @@ export default function Logon() {
             const response = await api.post('sessions', {id});
             localStorage.setItem('ongId', id);
             localStorage.setItem('ongName', response.data.name);
-            alert('Logado, ir pra profile');
+            history.push("/profile");
         } catch (err) {
-            alert('Falha de login');
+            alert('Falha no login.');
         }
     }
 
@@ -29,7 +30,7 @@ export default function Logon() {
            <section className="form">
             <img src={logoImg} alt="Be The Hero" />
             <form onSubmit={handleLogin}>
-                <h1>Faca seu Logon</h1>
+                <h1>Faca seu Login</h1>
                 <input 
                 placeholder="Sua ID" 
                 value={id}
@@ -39,7 +40,7 @@ export default function Logon() {
 
                 <Link className="back-link" to="/register">
                     <FiLogIn size={16} color="#E02041"/>
-                    Nao tenho cadastro</Link>
+                    Não tenho cadastro</Link>
             </form>
            </section>
            <img src={heroesImg} alt="Heroes"/>

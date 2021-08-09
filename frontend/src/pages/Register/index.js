@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './styles.css'
 import logoImg from '../../assets/logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import api from '../../services/api';
 
@@ -13,6 +13,7 @@ export default function Register(){
     const [city, setCity] = useState('');
     const [uf, setUf] = useState('');
 
+   let history = useHistory();
 
     async function handleRegister(e) {
         e.preventDefault();
@@ -28,9 +29,10 @@ export default function Register(){
         try {
             const response = await api.post('ongs', data);
             alert(`Seu ID de acesso: ${response.data.id}`);
+            history.push("/");
 
         } catch (err) {
-            alert('Deu B.O ai meu parceiro, tenta depois novamente.');
+            alert('Ocorreu um erro ao tentar cadastrar, tente novamente.');
         }
     }
     return (
@@ -40,11 +42,11 @@ export default function Register(){
                     <img src={logoImg} alt="Be The Hero" />
 
                     <h1>Cadastro</h1>
-                    <p>Faca seu cadastro, entre na plataforma e a encontrarem os casos da sua ONG. </p>
+                    <p>Faça seu cadastro, entre na plataforma e ajude pessoas a encontrarem os casos da sua ONG. </p>
 
                     <Link className="back-link" to="/">
                     <FiArrowLeft size={16} color="#E02041"/>
-                    Nao tenho cadastro
+                    Voltar para a tela de login
                     </Link>
                 </section>
                 <form onSubmit={handleRegister}>

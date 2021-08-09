@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import LogoImg from '../../assets/logo.svg';
 import {FiPower} from 'react-icons/fi';
 import {FiTrash2} from 'react-icons/fi';
@@ -10,6 +10,7 @@ export default function Profile() {
     const [incidents, setIncidents] = useState([]);
     const ongId = localStorage.getItem('ongId');
     const ongName = localStorage.getItem('ongName');
+    let history = useHistory();
 
     useEffect(() => {
         api.get('profile', {
@@ -37,7 +38,7 @@ export default function Profile() {
 
     function handleLogout() {
         localStorage.clear();
-        alert('Deslogado');
+        history.push("/");
     }
 
     return (
@@ -56,7 +57,7 @@ export default function Profile() {
                 <li key={incident.id}>
                     <strong>Caso:</strong>
                     <p>{incident.title}</p>
-                    <strong>Descricao:</strong>
+                    <strong>Descrição:</strong>
                     <p>{incident.description}</p>
                     <strong>Valor</strong>
                     <p>{Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(incident.value)}</p>

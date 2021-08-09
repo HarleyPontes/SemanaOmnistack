@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './styles.css';
 import logoImg from '../../assets/logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import api from '../../services/api';
 
@@ -10,6 +10,7 @@ export default function NewIncident() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [value, setValue] = useState('');
+    let history = useHistory();
 
     const ongId = localStorage.getItem('ongId');
     
@@ -28,9 +29,10 @@ export default function NewIncident() {
                     Authorization: ongId,
                 }
             })
-            alert('Funcionou com ressalvas');
+            alert('Caso cadastrado com sucesso.');
+            history.push("/profile");
         } catch (error) {
-            alert('Deu merda na hora de cadastrar caso');
+            alert('Erro ao cadastrar caso.');
         } 
 
     }
@@ -42,7 +44,7 @@ export default function NewIncident() {
                     <img src={logoImg} alt="Be The Hero" />
 
                     <h1>Cadastrar novo caso</h1>
-                    <p>Descreva o caso detalhadamente para encontrar um heroi para resolver.</p>
+                    <p>Descreva o caso detalhadamente para encontrar um Herói para resolver.</p>
 
                     <Link className="back-link" to="/profile">
                     <FiArrowLeft size={16} color="#E02041"/>
@@ -51,12 +53,12 @@ export default function NewIncident() {
                 </section>
                 <form onSubmit={handleNewIncident}>
                     <input 
-                    placeholder="Titulo do caso" 
+                    placeholder="Título do caso" 
                     value={title}
                     onChange={e => setTitle(e.target.value)}
                     />
                     <textarea 
-                    placeholder="Descricao"
+                    placeholder="Descrição"
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                     />
